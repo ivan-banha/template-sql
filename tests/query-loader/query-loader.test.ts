@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import exp from 'constants';
+import { join } from 'path';
 
 import { QueryLoader } from '../../src/query-loader.js';
 
@@ -13,6 +13,8 @@ const queries = {
   conditionalQuery: 'conditional-query',
 };
 
+const templateFolderPath = join('tests', 'query-loader', 'templates');
+
 describe('Query Loader', () => {
   test('Do not detect any files with empty "templates"', () => {
     const loader = new QueryLoader({
@@ -24,7 +26,7 @@ describe('Query Loader', () => {
 
   test('Detects all queries in a folder and its subfolders', () => {
     const loader = new QueryLoader({
-      templates: ['tests/query-loader/**/*.sql'],
+      templates: [join('tests', 'query-loader', '**', '*.sql')],
     });
 
     expect(loader.filesCount).toBe(2);
@@ -33,8 +35,8 @@ describe('Query Loader', () => {
   test('Find all queries in specified folders', () => {
     const loader = new QueryLoader({
       templates: [
-        'tests/templates/simple/*.sql',
-        'tests/templates/conditional/*.sql',
+        join(templateFolderPath, 'simple', '*.sql'),
+        join(templateFolderPath, 'conditional', '*.sql'),
       ],
     });
 
@@ -44,8 +46,8 @@ describe('Query Loader', () => {
   test('Loads query from FS', () => {
     const loader = new QueryLoader({
       templates: [
-        'tests/templates/simple/*.sql',
-        'tests/templates/conditional/*.sql',
+        join(templateFolderPath, 'simple', '*.sql'),
+        join(templateFolderPath, 'conditional', '*.sql'),
       ],
     });
 
